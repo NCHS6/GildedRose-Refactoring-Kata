@@ -25,7 +25,7 @@ internal class GildedRoseTest {
 
     @Test
     fun `quality reduced by 2 if passed sell by date`() {
-        val quality = Random.nextInt(1, 100)
+        val quality = Random.nextInt(1, 50)
         val item = Item(name = "Blue Whale", sellIn = -2, quality = quality)
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)

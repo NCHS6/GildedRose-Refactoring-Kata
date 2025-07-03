@@ -5,18 +5,19 @@ class GildedRose(val items: List<Item>) {
     fun updateQuality() {
 
         items.forEach { item ->
-            when (item.name) {
+            var multiplier = 1
+            when {
 
-                "Aged Brie" ->
+                item.name == "Aged Brie" ->
                     if (item.sellIn < 0) {
                         item.quality += 2
                     } else {
                         item.quality += 1
                     }
 
-                "Sulfuras, Hand of Ragnaros" -> {}
+                item.name == "Sulfuras, Hand of Ragnaros" -> {}
 
-                "Backstage passes to a TAFKAL80ETC concert" ->
+                item.name == "Backstage passes to a TAFKAL80ETC concert" ->
                     when {
                         item.sellIn <= 0 -> item.quality = 0
                         item.sellIn in 1..5 -> item.quality += 3
@@ -24,18 +25,18 @@ class GildedRose(val items: List<Item>) {
                         else -> item.quality += 1
                     }
 
-                "Conjured" ->
-                    if (item.sellIn < 0) {
-                        item.quality -= 4
-                    } else {
-                        item.quality -= 2
-                    }
+                item.name.startsWith("Conjured") -> multiplier = 2
+//                    if (item.sellIn < 0) {
+//                        item.quality -= 4
+//                    } else {
+//                        item.quality -= 2
+//                    }
 
                 else ->
                     if (item.sellIn < 0) {
-                        item.quality -= 2
+                        item.quality -= 2 * multiplier
                     } else {
-                        item.quality -= 1
+                        item.quality -= 1 * multiplier
                     }
             }
 
