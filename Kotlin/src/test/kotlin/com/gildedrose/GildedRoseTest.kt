@@ -16,12 +16,11 @@ internal class GildedRoseTest {
 
     @Test
     fun `quality reduced by 1 for regular items`() {
-        val quality = Random.nextInt(1, 100)
-        val item = Item(name = "Blue Whale", sellIn = 10, quality = quality)
+        val item = Item(name = "Blue Whale", sellIn = 10, quality = 20)
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)
         gildedRose.updateQuality()
-        assertEquals(quality-1, gildedRose.items[0].quality)
+        assertEquals(19, gildedRose.items[0].quality)
     }
 
     @Test
@@ -129,7 +128,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 2 with 6-10 sellIn for concert`() {
+    fun `quality increases by 2 with 6 sellIn for concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 6, quality = 20)
 
         val itemArr = listOf(item)
@@ -139,8 +138,28 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 5 with 1-5 sellIn for concert`() {
+    fun `quality increases by 2 with 10 sellIn for concert`() {
+        val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 10, quality = 20)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(22, gildedRose.items[0].quality)
+    }
+
+    @Test
+    fun `quality increases by 3 with 1 sellIn for concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 1, quality = 20)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(23, gildedRose.items[0].quality)
+    }
+
+    @Test
+    fun `quality increases by 3 with 5 sellIn for concert`() {
+        val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 5, quality = 20)
 
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)
@@ -157,6 +176,40 @@ internal class GildedRoseTest {
         gildedRose.updateQuality()
         assertEquals(0, gildedRose.items[0].quality)
     }
+
+    @Test
+    fun `sellIn never changes for Sulfuras`() {
+        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 80)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(10, gildedRose.items[0].sellIn)
+    }
+
+    //TDD
+
+    @Test
+    fun `quality of conjured degrades by 2 per day`() {
+        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 30)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(10, gildedRose.items[0].sellIn)
+    }
+
+    @Test
+    fun `quality of conjured degrades by 4 per day when passed sell by date`() {
+        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 30)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(10, gildedRose.items[0].sellIn)
+    }
+
+
 
 
 
