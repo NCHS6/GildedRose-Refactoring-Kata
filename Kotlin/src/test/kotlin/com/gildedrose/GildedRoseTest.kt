@@ -191,22 +191,22 @@ internal class GildedRoseTest {
 
     @Test
     fun `quality of conjured degrades by 2 per day`() {
-        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 30)
+        val item = Item(name = "Conjured Mana Cake", sellIn = 10, quality = 30)
 
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)
         gildedRose.updateQuality()
-        assertEquals(10, gildedRose.items[0].sellIn)
+        assertEquals(28, gildedRose.items[0].quality)
     }
 
     @Test
     fun `quality of conjured degrades by 4 per day when passed sell by date`() {
-        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 30)
+        val item = Item(name = "Conjured Mana Cake", sellIn = -1, quality = 30)
 
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)
         gildedRose.updateQuality()
-        assertEquals(10, gildedRose.items[0].sellIn)
+        assertEquals(26, gildedRose.items[0].quality)
     }
 
 
