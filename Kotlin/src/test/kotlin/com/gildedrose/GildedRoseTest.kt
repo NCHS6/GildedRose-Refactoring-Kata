@@ -15,7 +15,7 @@ import kotlin.test.BeforeTest
 internal class GildedRoseTest {
 
     @Test
-    fun `quality reduced by 1 for regular items`() {
+    fun `regular items - quality reduced by 1`() {
         val item = Item(name = "Blue Whale", sellIn = 10, quality = 20)
         val itemArr = listOf(item)
         val gildedRose = GildedRose(itemArr)
@@ -24,7 +24,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality reduced by 2 if passed sell by date`() {
+    fun `regular items - quality reduced by 2 if passed sell by date`() {
         val quality = Random.nextInt(1, 50)
         val item = Item(name = "Blue Whale", sellIn = -2, quality = quality)
         val itemArr = listOf(item)
@@ -44,8 +44,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 1 per day for brie`() {
-        val quality = Random.nextInt(1, 100)
+    fun `brie - quality increases by 1 per day`() {
         val item = Item(name = "Aged Brie", sellIn = 10, quality = 0)
 
         val itemArr = listOf(item)
@@ -55,8 +54,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 2 per day for passed sell by date brie brie`() {
-        val quality = Random.nextInt(1, 100)
+    fun `brie - quality increases by 2 per day for passed sell by date`() {
         val item = Item(name = "Aged Brie", sellIn = -1, quality = 0)
 
         val itemArr = listOf(item)
@@ -66,8 +64,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality never over 50 by passed sell by date brie`() {
-        val quality = Random.nextInt(1, 100)
+    fun `brie - quality never over 50 by passed sell by date`() {
         val item = Item(name = "Aged Brie", sellIn = -1, quality = 49)
 
         val itemArr = listOf(item)
@@ -77,8 +74,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality never over 50 by brie`() {
-        val quality = Random.nextInt(1, 100)
+    fun `brie - quality never over 50`() {
         val item = Item(name = "Aged Brie", sellIn = -1, quality = 50)
 
         val itemArr = listOf(item)
@@ -88,7 +84,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality never over 50 by regular items`() {
+    fun `regular items - quality never over 50`() {
         val item = Item(name = "Blue Moon", sellIn = 10, quality = 50)
 
         val itemArr = listOf(item)
@@ -98,7 +94,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality never changes for Sulfuras`() {
+    fun `Sulfuras - quality never changes`() {
         val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 80)
 
         val itemArr = listOf(item)
@@ -108,7 +104,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality never changes for passed sell by date Sulfuras`() {
+    fun `Sulfuras - quality never changes for passed sell by date`() {
         val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = -1, quality = 80)
 
         val itemArr = listOf(item)
@@ -118,7 +114,17 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 1 with 11 or more sellIn for concert`() {
+    fun `Sulfuras - sellIn never changes`() {
+        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 80)
+
+        val itemArr = listOf(item)
+        val gildedRose = GildedRose(itemArr)
+        gildedRose.updateQuality()
+        assertEquals(10, gildedRose.items[0].sellIn)
+    }
+
+    @Test
+    fun `Backstage pass - quality increases by 1 well before concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 20)
 
         val itemArr = listOf(item)
@@ -128,7 +134,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 2 with 6 sellIn for concert`() {
+    fun `Backstage pass - quality increases by 2 soon before concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 6, quality = 20)
 
         val itemArr = listOf(item)
@@ -138,7 +144,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 2 with 10 sellIn for concert`() {
+    fun `Backstage pass - quality increases by 2 with 10 days before concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 10, quality = 20)
 
         val itemArr = listOf(item)
@@ -148,7 +154,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 3 with 1 sellIn for concert`() {
+    fun `Backstage pass - quality increases by 3 the day before concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 1, quality = 20)
 
         val itemArr = listOf(item)
@@ -158,7 +164,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality increases by 3 with 5 sellIn for concert`() {
+    fun `Backstage pass - quality increases by 3 just before concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 5, quality = 20)
 
         val itemArr = listOf(item)
@@ -168,7 +174,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality goes to 0 after the concert`() {
+    fun `Backstage pass - quality goes to 0 after the concert`() {
         val item = Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = -1, quality = 20)
 
         val itemArr = listOf(item)
@@ -177,20 +183,10 @@ internal class GildedRoseTest {
         assertEquals(0, gildedRose.items[0].quality)
     }
 
-    @Test
-    fun `sellIn never changes for Sulfuras`() {
-        val item = Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 10, quality = 80)
-
-        val itemArr = listOf(item)
-        val gildedRose = GildedRose(itemArr)
-        gildedRose.updateQuality()
-        assertEquals(10, gildedRose.items[0].sellIn)
-    }
-
     //TDD
 
     @Test
-    fun `quality of conjured degrades by 2 per day`() {
+    fun `Conjured Items - quality degrades by 2 per day`() {
         val item = Item(name = "Conjured Mana Cake", sellIn = 10, quality = 30)
 
         val itemArr = listOf(item)
@@ -200,7 +196,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `quality of conjured degrades by 4 per day when passed sell by date`() {
+    fun `Conjured Items - quality degrades by 4 per day when passed sell by date`() {
         val item = Item(name = "Conjured Mana Cake", sellIn = -1, quality = 30)
 
         val itemArr = listOf(item)
