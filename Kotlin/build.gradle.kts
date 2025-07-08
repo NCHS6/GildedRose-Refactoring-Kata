@@ -12,7 +12,7 @@ repositories {
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(8)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -20,6 +20,7 @@ dependencies {
 	implementation(kotlin("stdlib"))
 	testImplementation(kotlin("test"))
 	testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
+	testImplementation("io.mockk:mockk:1.14.4")
 }
 
 tasks.test {
