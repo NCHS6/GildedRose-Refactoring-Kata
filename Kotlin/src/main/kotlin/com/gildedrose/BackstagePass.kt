@@ -1,8 +1,8 @@
 package com.gildedrose
 
-class BackstagePass(private var pass: Item) : RegularRules(pass) {
+class BackstagePass(private var pass: Item) : ItemWithRules(pass) {
 
-    override fun updateQuality() {
+    override fun update() {
         when {
             pass.sellIn <= 0 -> pass.quality = 0
 
@@ -12,7 +12,10 @@ class BackstagePass(private var pass: Item) : RegularRules(pass) {
 
             else -> pass.quality += 1
         }
-        super.qualityCheck()
+
+        checkAndAdjustQualityToWithinBounds()
+
+        pass.sellIn -= 1
     }
 
 }

@@ -1,14 +1,16 @@
 package com.gildedrose
 
-class ConjuredItems(private var item:Item) : RegularRules(item) {
+class ConjuredItems(private var item:Item) : ItemWithRules(item) {
 
-    override fun updateQuality()  {
+    override fun update()  {
 
         if (item.sellIn < 0) {
             item.quality -= 2*2
         } else {
             item.quality -= 1 * 2
         }
-        super.qualityCheck()
+        checkAndAdjustQualityToWithinBounds()
+
+        item.sellIn -= 1
     }
 }

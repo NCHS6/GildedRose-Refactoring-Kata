@@ -1,27 +1,17 @@
 package com.gildedrose
 
-open class RegularRules(private var item : Item) {
+class RegularRules(private var item : Item): ItemWithRules(item) {
 
-    open fun updateQuality() {
+    override fun update() {
+
         if (item.sellIn < 0) {
             item.quality -= 2
         } else {
             item.quality -= 1
         }
-        qualityCheck()
-    }
 
-    fun qualityCheck() {
-        when {
-            item.quality < 0 -> item.quality = 0
-            item.quality > 50 -> item.quality = 50
-            else -> {}
-        }
-    }
+        checkAndAdjustQualityToWithinBounds()
 
-
-    fun updateSellIn() {
         item.sellIn -= 1
     }
-
 }
